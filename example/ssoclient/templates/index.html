@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>dj-sso-client DEMO</title>
+</head>
+<body>
+<h1>dj-sso-client DEMO</h1>
+SSO server: <a href="https://dj-sso-sample.herokuapp.com"> https://dj-sso-sample.herokuapp.com </a>
+<hr>
+{% if req.get_host != "localhost:8000" %}
+    <b style="color: red">
+        <div>The SSO API key is binding with origin <b>http://localhost:8000</b></div>
+        <div>Please access example application by <a href="http://localhost:8000">http://localhost:8000</a> instead
+            of {{ req.get_host }}</div>
+    </b>
+    <hr>
+
+{% else %}
+    {% if user.is_authenticated %}
+        hello {{ user }}, <a href="/accounts/logout">logout</a>
+        <ul>
+        <li>username: {{ user.username }}</li>
+        <li>last name: {{ user.last_name }}</li>
+        <li>first name: {{ user.first_name }}</li>
+        <li>email: {{ user.email }}</li>
+        <li>last login: {{ user.last_login }}</li>
+
+
+    {% else %}
+        <a href="/accounts/login/">login</a>
+    {% endif %}
+{% endif %}
+
+
+</body>
+</html>

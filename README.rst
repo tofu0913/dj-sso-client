@@ -96,6 +96,5 @@ The API key using in the example application is binding with ``localhost:8000``,
 
 TODO
 -----
-- example
-- work as an extra auth method
+- example: work as an extra auth method
 
