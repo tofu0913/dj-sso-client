@@ -1,0 +1,6 @@
+include LICENSE
+include README.rst
+recursive-include djssoclient/migrations *.py
+recursive-include example *
+prune *.pyc
+prune *.sw*
