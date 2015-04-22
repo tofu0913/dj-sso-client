@@ -36,11 +36,11 @@ class APIClient(AbsAPIClient):
     def __init__(self, apikey, seckey, url):
         self.opener = urllib2.build_opener()
         self._baseurl = url
-        self._ak = apikey
-        self._sk = seckey
+        self._ak = str(apikey)
+        self._sk = str(seckey)
 
-    def _sign_msg(self, sk, msg):
-        dig = hmac.new(sk, msg, digestmod=hashlib.sha256).digest()
+    def _sign_msg(self, msg):
+        dig = hmac.new(self._sk, msg, digestmod=hashlib.sha256).digest()
         return base64.b64encode(dig).decode()
 
     def _sign_url(self, _url):
@@ -51,7 +51,7 @@ class APIClient(AbsAPIClient):
         qs["apikey"] = self._ak
         new_qs = urllib.urlencode(qs, True)
         tmpurl = urlparse.urlunparse(list(url_parts[0:4]) + [new_qs] + list(url_parts[5:]))
-        final_url = tmpurl + "&signature=" + self._sign_msg(self._sk, tmpurl)  # sign url
+        final_url = tmpurl + "&signature=" + self._sign_msg(tmpurl)  # sign url
         return final_url
 
     def send_request(self, url, data=None, datafunc=json.loads):

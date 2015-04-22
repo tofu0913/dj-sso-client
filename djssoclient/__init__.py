@@ -15,5 +15,5 @@ REMOTE_SSO_LOGIN_URL = os.path.join(remote_sso_url_prefix, "login/")
 SSO_USER_STORAGE = _load_setting("SSO_USER_STORAGE", "djssoclient.userstorage.SSOUserDBStorage")
 SSO_SETTING_CACHE = _load_setting("SSO_SETTING_CACHE", "default")
 
-__version__ = '0.1'
+__version__ = '0.2'
 VERSION = tuple(map(int, __version__.split('.')))
