@@ -27,7 +27,7 @@ class SSOUserCacheStorage(SSOUserStorage):
 
     def save(self, userid, ssouser):
         self.cache.set(self._get_cached_id(userid),
-                       cPickle.dumps(ssouser))
+                       cPickle.dumps(ssouser), timeout=None)
 
     def find(self, userid):
         return cPickle.loads(self.cache.get(self._get_cached_id(userid)))
