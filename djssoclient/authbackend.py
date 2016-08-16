@@ -1,5 +1,5 @@
 import urllib
-from django.utils.module_loading import import_by_path
+from django.utils.module_loading import import_string
 from .models import SSOUser
 from . import REMOTE_AUTH_TOKEN_URL, SSO_USER_STORAGE
 from apiclient import client
@@ -7,7 +7,7 @@ from apiclient import client
 
 class SSOAuthBackend(object):
     def __init__(self):
-        SSO_USER_STORAGE_CLZ = import_by_path(SSO_USER_STORAGE)
+        SSO_USER_STORAGE_CLZ = import_string(SSO_USER_STORAGE)
         self.storageengine = SSO_USER_STORAGE_CLZ()
 
     def authenticate(self, request_token, auth_token, **credentials):

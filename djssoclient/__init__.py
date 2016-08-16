@@ -1,5 +1,6 @@
 import os
 from django.conf import settings
+from .version import __version__, VERSION
 
 
 def _load_setting(n, default):
@@ -14,6 +15,3 @@ REMOTE_SSO_LOGIN_URL = os.path.join(remote_sso_url_prefix, "login/")
 # user storage
 SSO_USER_STORAGE = _load_setting("SSO_USER_STORAGE", "djssoclient.userstorage.SSOUserDBStorage")
 SSO_SETTING_CACHE = _load_setting("SSO_SETTING_CACHE", "default")
-
-__version__ = '0.2'
-VERSION = tuple(map(int, __version__.split('.')))

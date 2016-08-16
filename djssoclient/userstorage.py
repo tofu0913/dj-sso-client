@@ -1,6 +1,7 @@
 import cPickle
 from . import SSO_SETTING_CACHE
-from django.core.cache import get_cache
+from django.core.cache import caches
+from django.db import IntegrityError
 from .models import SSOUser
 
 
@@ -20,7 +21,7 @@ class SSOUserStorage(object):
 
 class SSOUserCacheStorage(SSOUserStorage):
     def __init__(self):
-        self.cache = get_cache(SSO_SETTING_CACHE)
+        self.cache = caches(SSO_SETTING_CACHE)
 
     def _get_cached_id(self, userid):
         return "sso_user_%s" % userid
@@ -38,13 +39,17 @@ class SSOUserCacheStorage(SSOUserStorage):
 
 class SSOUserDBStorage(SSOUserStorage):
     def save(self, userid, ssouser):
-        ssouser.save()
+        try:
+            ssouser.save()
+        except IntegrityError:
+            SSOUser.objects.filter(username=ssouser.username).delete()
+            ssouser.save()
 
     def find(self, userid):
-        return SSOUser.objects.get(pk=userid)
+        try:
+            return SSOUser.objects.get(pk=userid)
+        except SSOUser.DoesNotExist:
+            return None
 
     def remove(self, userid):
-        try:
-            SSOUser.objects.get(pk=userid).delete()
-        except:
-            pass
+        pass
