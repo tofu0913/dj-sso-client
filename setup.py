@@ -9,16 +9,16 @@ with open(os.path.join(os.path.dirname(__file__), 'README.rst')) as readme:
 os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
-    name='dj-sso-client',
+    name='dj-sso-client2',
     version=__version__,
     packages=['djssoclient',],
     include_package_data=True,
     license='GPL v2.0',
     description='A Django SSO client application, works with dj-sso-server',
     long_description=README,
-    url='https://github.com/feifangit/dj-sso-client',
-    author='Fan Fei',
-    author_email='feifan.pub@gmail.com',
+    url='https://github.com/tofu0913/dj-sso-client',
+    author='Fan Fei, Cliff Chen',
+    author_email='tofu0913@gmail.com',
     classifiers=[
         'Environment :: Web Environment',
         'Framework :: Django',
