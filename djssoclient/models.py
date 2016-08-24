@@ -44,6 +44,15 @@ class SSOUser(AbstractBaseUser):
                 pass
         return val
 
+    def has_perm(self, perm, obj=None):
+        return self.is_superuser
+
+    def has_module_perms(self, app_label):
+        return self.is_superuser
+        
+    def get_short_name(self):
+        "Returns the short name for the user."
+        return self.first_name
 
 @receiver(user_logged_out, sender=SSOUser)
 def notify_backend(request, user, *args, **kwargs):
