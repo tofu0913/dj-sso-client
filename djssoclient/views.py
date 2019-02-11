@@ -34,6 +34,8 @@ def viewLogin(request):
              "request_token": request_token,
              "next": request.build_absolute_uri(
                  reverse("ssoauth") + "?redirect=%s" % request.GET.get("next", settings.LOGIN_REDIRECT_URL))}
+    if hasattr(settings, 'SSO_NO_CONFIRM'):
+        query.update({'noconfirm': settings.SSO_NO_CONFIRM})
     url_parts[2] = REMOTE_SSO_LOGIN_URL
     url_parts[4] = urllib.urlencode(query)
     ssoLoginURL = urlparse.urlunparse(url_parts)
