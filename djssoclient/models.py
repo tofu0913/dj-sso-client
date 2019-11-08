@@ -1,5 +1,5 @@
 import copy
-import cPickle
+import pickle
 
 from django.db import models
 from django.contrib.auth.models import User, AbstractBaseUser, update_last_login
@@ -9,7 +9,7 @@ from django.contrib.auth import get_backends
 
 
 def default_dumpped_dict():
-    return cPickle.dumps({})
+    return pickle.dumps({})
 
 class SSOUser(AbstractBaseUser):
     username = models.CharField(unique=True, max_length=50)
@@ -26,7 +26,7 @@ class SSOUser(AbstractBaseUser):
         for fn, fv in filter(lambda item: item[0] not in fieldsOfModel, kwargs.items()):
             _kwargs.pop(fn, None)  # only db fields in _kwargs
             extrainfo[fn] = fv
-        _kwargs["extras"] = cPickle.dumps(extrainfo)
+        _kwargs["extras"] = pickle.dumps(extrainfo)
         return super(SSOUser, self).__init__(*args, **_kwargs)
 
 
@@ -39,7 +39,7 @@ class SSOUser(AbstractBaseUser):
                 raise e
 
             try:
-                val = cPickle.loads(str(self.extras)).get(name)
+                val = pickle.loads(str(self.extras)).get(name)
             except Exception as oe:
                 pass
         return val

@@ -1,4 +1,4 @@
-import cPickle
+import pickle
 from . import SSO_SETTING_CACHE
 from django.core.cache import caches
 from django.db import IntegrityError
@@ -28,10 +28,10 @@ class SSOUserCacheStorage(SSOUserStorage):
 
     def save(self, userid, ssouser):
         self.cache.set(self._get_cached_id(userid),
-                       cPickle.dumps(ssouser), timeout=None)
+                       pickle.dumps(ssouser), timeout=None)
 
     def find(self, userid):
-        return cPickle.loads(self.cache.get(self._get_cached_id(userid)))
+        return pickle.loads(self.cache.get(self._get_cached_id(userid)))
 
     def remove(self, userid):
         self.cache.delete(self._get_cached_id(userid))
