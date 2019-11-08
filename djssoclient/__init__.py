@@ -4,7 +4,11 @@ from .version import __version__, VERSION
 
 
 def _load_setting(n, default):
-    return getattr(settings, n) if hasattr(settings, n) else default
+    try:
+        return getattr(settings, n) if hasattr(settings, n) else default
+    except:
+        pass
+    return default
 
 remote_sso_url_prefix = _load_setting("SSO_REMOTE_URL_PREFIX", "/sso/")
 REMOTE_REQUEST_TOKEN_URL = os.path.join(remote_sso_url_prefix, "reqeusttoken/")
