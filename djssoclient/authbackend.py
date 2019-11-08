@@ -10,7 +10,7 @@ class SSOAuthBackend(object):
         SSO_USER_STORAGE_CLZ = import_string(SSO_USER_STORAGE)
         self.storageengine = SSO_USER_STORAGE_CLZ()
 
-    def authenticate(self, request_token, auth_token, **credentials):
+    def authenticate(self, request, request_token=None, auth_token=None, **credentials):
         code, user_info = client.send_request(
             REMOTE_AUTH_TOKEN_URL + "?" + urllib.parse.urlencode({"request_token": request_token, "auth_token": auth_token}))
         user = user_info["user"]
