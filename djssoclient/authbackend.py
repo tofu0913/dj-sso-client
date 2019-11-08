@@ -2,7 +2,7 @@ import urllib
 from django.utils.module_loading import import_string
 from .models import SSOUser
 from . import REMOTE_AUTH_TOKEN_URL, SSO_USER_STORAGE
-from apiclient import client
+from .apiclient import client
 
 
 class SSOAuthBackend(object):

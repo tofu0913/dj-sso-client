@@ -56,7 +56,7 @@ class SSOUser(AbstractBaseUser):
 
 @receiver(user_logged_out, sender=SSOUser)
 def notify_backend(request, user, *args, **kwargs):
-    from authbackend import SSOAuthBackend
+    from .authbackend import SSOAuthBackend
     for b in get_backends():
         if isinstance(b, SSOAuthBackend):
             b.storageengine.remove(user.id)
