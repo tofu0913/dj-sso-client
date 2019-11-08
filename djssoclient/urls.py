@@ -1,5 +1,8 @@
-from django.conf.urls import patterns, url
+from django.urls import path
 
 from .views import viewAuth
 
-urlpatterns = patterns('', url(r'^auth/$', viewAuth, name="ssoauth"), )
+urlpatterns = [
+    path(r'^auth/$', viewAuth, name="ssoauth"),
+
+]
