@@ -1,5 +1,4 @@
 import urllib
-import urllib2
 import json
 import time
 import logging
@@ -8,7 +7,7 @@ import hashlib
 import base64
 import abc
 
-from urllib2 import HTTPError
+from urllib.request import HTTPError
 from django.conf import settings
 
 logging.basicConfig()
@@ -33,7 +32,7 @@ class APIClientHTTPError(Exception):
 
 class APIClient(AbsAPIClient):
     def __init__(self, apikey, seckey, url):
-        self.opener = urllib2.build_opener()
+        self.opener = urllib.request.build_opener()
         self._baseurl = url
         self._ak = str(apikey)
         self._sk = str(seckey)
