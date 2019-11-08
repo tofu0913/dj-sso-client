@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 from django.conf import settings
 from django.contrib.auth import authenticate, login as auth_login
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 from .apiclient import client
 from . import REMOTE_REQUEST_TOKEN_URL, REMOTE_SSO_LOGIN_URL
