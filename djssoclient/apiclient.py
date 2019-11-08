@@ -1,7 +1,6 @@
 import urllib
 import urllib2
 import json
-import urlparse
 import time
 import logging
 import hmac
@@ -45,19 +44,19 @@ class APIClient(AbsAPIClient):
 
     def _sign_url(self, _url):
         url = ("/" + _url) if not _url.startswith("/") else _url
-        url_parts = urlparse.urlparse(url)
-        qs = urlparse.parse_qs(url_parts.query)
+        url_parts = urllib.parse.urlparse(url)
+        qs = urllib.parse.parse_qs(url_parts.query)
         qs["timestamp"] = time.time()  # UNIX time
         qs["apikey"] = self._ak
-        new_qs = urllib.urlencode(qs, True)
-        tmpurl = urlparse.urlunparse(list(url_parts[0:4]) + [new_qs] + list(url_parts[5:]))
+        new_qs = urllib.parse.urlencode(qs, True)
+        tmpurl = urllib.parse.urlunparse(list(url_parts[0:4]) + [new_qs] + list(url_parts[5:]))
         final_url = tmpurl + "&signature=" + self._sign_msg(tmpurl)  # sign url
         return final_url
 
     def send_request(self, url, data=None, datafunc=json.loads):
-        logger.debug("send to: %s" % urlparse.urljoin(self._baseurl, self._sign_url(url)))
+        logger.debug("send to: %s" % urllib.parse.urljoin(self._baseurl, self._sign_url(url)))
         try:
-            resp = self.opener.open(urlparse.urljoin(self._baseurl, self._sign_url(url)), data)
+            resp = self.opener.open(urllib.parse.urljoin(self._baseurl, self._sign_url(url)), data)
             return resp.code, datafunc(resp.read()) if datafunc else resp.read()
         except HTTPError as e:
             raise APIClientHTTPError(e.code, e.fp.read() if (e.fp and e.code == 403) else e.msg)

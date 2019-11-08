@@ -1,5 +1,4 @@
 import urllib
-import urlparse
 
 from django.http import HttpResponseRedirect
 from django.conf import settings
@@ -29,7 +28,7 @@ def viewLogin(request):
     request_token = token_info["request_token"]
 
     restserver = settings.SSO_API_AUTH_SETTING["url"]
-    url_parts = list(urlparse.urlparse(restserver))
+    url_parts = list(urllib.parse.urlparse(restserver))
     query = {"api_key": settings.SSO_API_AUTH_SETTING["apikey"],
              "request_token": request_token,
              "next": request.build_absolute_uri(
@@ -37,6 +36,6 @@ def viewLogin(request):
     if hasattr(settings, 'SSO_NO_CONFIRM'):
         query.update({'noconfirm': settings.SSO_NO_CONFIRM})
     url_parts[2] = REMOTE_SSO_LOGIN_URL
-    url_parts[4] = urllib.urlencode(query)
-    ssoLoginURL = urlparse.urlunparse(url_parts)
+    url_parts[4] = urllib.parse.urlencode(query)
+    ssoLoginURL = urllib.parse.urlunparse(url_parts)
     return HttpResponseRedirect(ssoLoginURL)

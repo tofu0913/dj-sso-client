@@ -12,7 +12,7 @@ class SSOAuthBackend(object):
 
     def authenticate(self, request_token, auth_token, **credentials):
         code, user_info = client.send_request(
-            REMOTE_AUTH_TOKEN_URL + "?" + urllib.urlencode({"request_token": request_token, "auth_token": auth_token}))
+            REMOTE_AUTH_TOKEN_URL + "?" + urllib.parse.urlencode({"request_token": request_token, "auth_token": auth_token}))
         user = user_info["user"]
         u = SSOUser(**user)
         self.storageengine.save(user["id"], u)
