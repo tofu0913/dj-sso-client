@@ -6,6 +6,7 @@ import hmac
 import hashlib
 import base64
 import abc
+import codecs
 
 from urllib.request import HTTPError
 from django.conf import settings
@@ -38,7 +39,7 @@ class APIClient(AbsAPIClient):
         self._sk = str(seckey)
 
     def _sign_msg(self, msg):
-        dig = hmac.new(self._sk, msg, digestmod=hashlib.sha256).digest()
+        dig = hmac.new(codecs.encode(self._sk), msg=codecs.encode(msg), digestmod=hashlib.sha256).digest()
         return base64.b64encode(dig).decode()
 
     def _sign_url(self, _url):
